@@ -1,0 +1,19 @@
+ivan_ikfk_snap(match_to = 'ik', limb = 'lfleg')
+
+def ivan_ikfk_snap(match_to = 'fk', limb = 'lfarm'):
+    side = limb[:2]        
+    if match_to == 'fk':
+        for part in [limb [2:]]:
+            rot = cmds.xform('ivan_%s_IK_%s_snap'%(side.upper(), part), q = True, ro = True, ws = True)
+            cmds.xform('ivan_%s_IK_%s_ctrl'%(side.upper(), part), ro = rot, ws = True)
+            cmds.delete(cmds.pointConstraint('ivan_%s_IK_%s_snap'%(side.upper(), part), 'ivan_%s_IK_%s_ctrl'%(side.upper(), part), mo = False)) 
+    else:
+        if limb [2:] == 'arm':
+            limb_ls = ['arm', 'elbow', 'wrist']
+        else :
+            limb_ls = ['leg', 'knee', 'feet']
+        for part in limb_ls:
+            rot = cmds.xform('ivan_%s_FK_%s_snap'%(side.upper(), part), q = True, ro = True, ws = True)
+            cmds.xform('ivan_%s_FK_%s_ctrl'%(side.upper(), part), ro = rot, ws = True)  
+            cmds.delete(cmds.pointConstraint('ivan_%s_FK_%s_snap'%(side.upper(), part), 'ivan_%s_FK_%s_ctrl'%(side.upper(), part), mo = False))
+     
